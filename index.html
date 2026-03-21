@@ -627,7 +627,7 @@ const SECTORS=[
 ];
 
 const UFO={x:0,y:0,w:76,h:28,vy:0,blink:0,hitFlash:0,enginePulse:0};
-let stars=[],clouds=[],farMtns=[],nearMtns=[],buildings=[],humans=[],missiles=[],particles=[],powerups=[],helicopters=[];
+let stars=[],clouds=[],farMtns=[],nearMtns=[],buildings=[],humans=[],missiles=[],particles=[],powerups=[],helicopters=[],cars=[];
 let bldTimer=0,humanTimer=0,missileTimer=0,puTimer=0,heliTimer=0;
 const GY=()=>H-68;
 
@@ -640,8 +640,9 @@ function initGame(){
   worldX=0;sector=0;sectorDist=0;wanted=0;shielded=false;
   combo=1;comboTimer=0;bestCombo=1;totalAbductions=0;
   screenShake=0;flashTimer=0;runStarted=true;
-  stars=[];clouds=[];farMtns=[];nearMtns=[];buildings=[];humans=[];missiles=[];
+  stars=[];clouds=[];farMtns=[];nearMtns=[];buildings=[];humans=[];missiles=[];cars=[];
   particles=[];powerups=[];helicopters=[];
+  touchBeam=false;
   initStars();initClouds();initMtns();
   bldTimer=200;humanTimer=80;missileTimer=999;puTimer=380;heliTimer=600;
   GSTATE='playing';
@@ -1459,19 +1460,7 @@ document.getElementById('quit-btn').addEventListener('click',()=>{
 });
 
 // ── PAGE VISIBILITY — reset to title if player leaves tab ────────
-document.addEventListener('visibilitychange',()=>{
-  if(document.hidden && (GSTATE==='playing'||GSTATE==='transition')){
-    stopEngineHum();
-    GSTATE='menu';
-    // reset all game state cleanly
-    runStarted=false;
-    document.getElementById('over-screen').classList.add('off');
-    document.getElementById('sector-screen').classList.add('off');
-    document.getElementById('quit-btn').style.display='none';
-    document.getElementById('start-screen').classList.remove('off');
-    startTitleMusic();
-  }
-});
+// [removed duplicate visibilitychange listener — see complete listener below]
 document.getElementById('startBtn').addEventListener('click',()=>{try{getSFX().resume();}catch(e){}startGame();});
 document.getElementById('restartBtn').addEventListener('click',()=>{try{getSFX().resume();}catch(e){}goToMenu();});
 
