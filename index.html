@@ -1674,7 +1674,7 @@ document.getElementById('pilot-name').addEventListener('keydown',e=>{
 document.getElementById('skip-score-btn').addEventListener('click', showGameOverScreen);
 
 // Also load leaderboard on page open so it's warm when tab is clicked
-setTimeout(()=>{ try{ fetchLeaderboard(); }catch(e){} }, 1000);
+setTimeout(()=>{ fetchLeaderboard().catch(()=>{}); }, 1000);
 </script>
 </body>
 </html>
